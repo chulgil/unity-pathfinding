@@ -1,11 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MapData : MonoBehaviour {
     public int width = 10;
     public int height = 5;
 
+    public TextAsset textAsset;
+
+    public List<string> GetTextFromFile(TextAsset tAsset)
+    {
+        List<string> lines = new List<string>();
+
+        if(tAsset != null)
+        {
+            string textData = tAsset.text;
+            string[] delimiters = { "\r\n", "\n"};
+            lines.AddRange(textData.Split(delimiters, System.StringSplitOptions.None));
+        }
+        else
+        {
+            Debug.LogWarning("MAPDATA GetTextFromFile Error: invalid TextAsset");
+        }
+
+        return lines;
+    }
+
+    public List<string> GetTextFromFile()
+    {
+        return GetTextFromFile(textAsset);
+    }
+    
     public int[,] MakeMap()
     {
         int[,] map = new int[width, height];
