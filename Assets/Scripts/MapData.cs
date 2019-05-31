@@ -6,11 +6,6 @@ public class MapData : MonoBehaviour {
     public int width = 10;
     public int height = 5;
 
-    // void Start()
-    // {
-    //     int[,] mapInstance = MakeMap();
-    // }
-
     public int[,] MakeMap()
     {
         int[,] map = new int[width, height];
