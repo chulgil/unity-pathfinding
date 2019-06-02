@@ -6,6 +6,8 @@ using UnityEngine;
 public class GraphView : MonoBehaviour
 {
     public GameObject nodeViewPrefab;
+    public NodeView[,] nodeViews;
+
 
     public Color baseColor = Color.white;
     public Color wallColor = Color.black;
@@ -17,6 +19,7 @@ public class GraphView : MonoBehaviour
             Debug.LogWarning("GRAPHVIEW No graph to initialize!");
             return;
         }
+        nodeViews = new NodeView[graph.Width, graph.Height];
 
         foreach (Node n in graph.nodes)
         {
@@ -26,6 +29,7 @@ public class GraphView : MonoBehaviour
             if (nodeView != null)
             {
                 nodeView.Init(n);
+                nodeViews[n.xIndex, n.yIndex] = nodeView;
 
                 if (n.nodeType == NodeType.Blocked)
                 {

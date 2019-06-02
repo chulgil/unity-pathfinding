@@ -9,7 +9,9 @@ public class Graph : MonoBehaviour {
 
     int[,] m_mapData;
     int m_width;
+    public int Width { get { return m_width; }}
     int m_height;
+    public int Height { get { return m_height; }}
 
     public static readonly Vector2[] allDirections =
     {
