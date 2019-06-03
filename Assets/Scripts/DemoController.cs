@@ -9,8 +9,8 @@ public class DemoController : MonoBehaviour
 
     public Pathfinder pathfinder;
     public int startX = 0;
-    public int startY = 0;
-    public int goalX = 15;
+    public int startY = 3;
+    public int goalX = 39;
     public int goalY = 1;
     
     public float timeStep = 0.1f;
