@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class MapData : MonoBehaviour {
     public int width = 40;
-    public int height = 25;
+    public int height = 5;
 
     public TextAsset textAsset;
     public Texture2D textureMap;

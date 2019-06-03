@@ -22,6 +22,11 @@ public class Pathfinder : MonoBehaviour
     public Color arrowColor = new Color32(216,216,216,255);
     public Color highlightColor = new Color32(255, 255, 128, 255);
 
+    public bool showInterations = true;
+    public bool showColors = true;
+    public bool showArrows = true;
+    public bool exitOnGoal = true;
+
     public bool isComplete = false;
     int m_iterations = 0;
 
@@ -63,7 +68,6 @@ public class Pathfinder : MonoBehaviour
         isComplete = false;
         m_iterations = 0;
     }
-
     void ShowColors()
     {
         ShowColors(m_graphView, m_startNode, m_goalNode);
@@ -103,9 +107,11 @@ public class Pathfinder : MonoBehaviour
             goalNodeView.ColorNode(goalColor);
         }
     }
-
+    
     public IEnumerator SearchRoutine(float timeStep = 0.1f)
     {
+        float timeStart = Time.time;
+
         yield return null;
 
         while (!isComplete)
@@ -125,6 +131,10 @@ public class Pathfinder : MonoBehaviour
                 if (m_frontierNodes.Contains(m_goalNode))
                 {
                     m_pathNodes = GetPathNodes(m_goalNode);
+                    if (exitOnGoal)
+                    {
+                        isComplete = true;
+                    }
                 }
                 ShowColors();
                 if (m_graphView != null)
@@ -144,6 +154,9 @@ public class Pathfinder : MonoBehaviour
                 isComplete = true;
             }
         }
+
+        Debug.Log("PATHFINDER SearchRoutine: elapse time = " 
+            + (Time.time - timeStart).ToString() + " seconds");
     }
 
     void ExpandFrontier(Node node)
