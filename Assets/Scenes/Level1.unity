@@ -152,6 +152,7 @@ MonoBehaviour:
   width: 10
   height: 5
   textAsset: {fileID: 4900000, guid: 2a2e2fb41ea6442828b1c7193c6dda4b, type: 3}
+  resourcePath: MapData
 --- !u!4 &254688202
 Transform:
   m_ObjectHideFlags: 0
@@ -197,6 +198,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapData: {fileID: 254688201}
   graph: {fileID: 1300740674}
+  pathfinder: {fileID: 1597360992}
+  startX: 0
+  startY: 0
+  goalX: 15
+  goalY: 1
 --- !u!4 &540490775
 Transform:
   m_ObjectHideFlags: 0
@@ -445,3 +451,51 @@ MonoBehaviour:
     type: 3}
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   wallColor: {r: 0, g: 0, b: 0, a: 1}
+--- !u!1 &1597360991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1597360993}
+  - component: {fileID: 1597360992}
+  m_Layer: 0
+  m_Name: Pathfinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1597360992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597360991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78ceb6ec29dde47749a1307ca798dcd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startColor: {r: 0, g: 1, b: 0, a: 1}
+  goalColor: {r: 1, g: 0, b: 0, a: 1}
+  frontierColor: {r: 1, g: 0, b: 1, a: 1}
+  exploredColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  pathColor: {r: 0, g: 1, b: 1, a: 1}
+--- !u!4 &1597360993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597360991}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.10035, y: -10.782967, z: 8.357079}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
