@@ -35,7 +35,7 @@ public class DemoController : MonoBehaviour
                 Node startNode = graph.nodes[startX, startY];
                 Node goalNode = graph.nodes[goalX, goalY];
                 pathfinder.Init(graph, graphView, startNode, goalNode);
-                StartCoroutine(pathfinder.SearchRoutine());
+                StartCoroutine(pathfinder.SearchRoutine(timeStep));
             }
         }
     }
