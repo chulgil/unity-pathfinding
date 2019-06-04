@@ -34,7 +34,8 @@ public class Pathfinder : MonoBehaviour
     {
         BreadthFirstSearch = 0,
         Dijkstra = 1,
-        GreedyBestFirst = 2
+        GreedyBestFirst = 2,
+        Astar = 3
     }
 
     public Mode mode = Mode.BreadthFirstSearch;
@@ -151,6 +152,9 @@ public class Pathfinder : MonoBehaviour
                         break;
                     case Mode.GreedyBestFirst :
                         ExpandFrontierGreedyBestFirst(currentNode);
+                        break;
+                    case Mode.Astar :
+                        ExpandFrontierAstar(currentNode);
                         break;
                 }
                 
@@ -280,7 +284,33 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
+    void ExpandFrontierAstar(Node node)
+    {
+        if (node != null)
+        {
+            for (int i = 0; i < node.neighbors.Count; i++)
+            {
+                if (!m_exploredNodes.Contains(node.neighbors[i]))
+                {
+                    float distanceToNeighbor = m_graph.GetNodeDistance(node, node.neighbors[i]);
+                    float newDistanceTravled = distanceToNeighbor + node.distanceTraveled + (int)node.nodeType;
 
+                    if(float.IsPositiveInfinity(node.neighbors[i].distanceTraveled) ||
+                        newDistanceTravled < node.neighbors[i].distanceTraveled)
+                    {
+                        node.neighbors[i].previous = node;
+                        node.neighbors[i].distanceTraveled = newDistanceTravled;
+                    }
+                    if (!m_frontierNodes.Contains(node.neighbors[i]) && m_graph != null)
+                    {
+                        int distanceToGoal = (int)m_graph.GetNodeDistance(node.neighbors[i], m_goalNode);
+                        node.neighbors[i].priority = (int)node.neighbors[i].distanceTraveled + distanceToGoal;
+                        m_frontierNodes.Enqueue(node.neighbors[i]);
+                    }
+                }
+            }
+        }
+    }
 
 
     List<Node> GetPathNodes(Node endNode)
