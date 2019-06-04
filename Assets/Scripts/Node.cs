@@ -6,7 +6,10 @@ using System;
 public enum NodeType
 {
     Open = 1,
-    Blocked = 1
+    Blocked = 1,
+    LightTerrain = 2,
+    MediumTerrain = 3,
+    HeavyTerrain = 4
 }
 
 public class Node: IComparable<Node>

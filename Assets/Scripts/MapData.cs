@@ -13,6 +13,19 @@ public class MapData : MonoBehaviour {
     public Texture2D textureMap;
     public string resourcePath = "MapData";
 
+    public Color32 openColor = Color.white;
+    public Color32 blockedColor = Color.black;
+    public Color32 lightTerrainColor = new Color32(124, 194, 78, 255);
+    public Color32 mediumTerrainColor = new Color32(252, 255, 52, 255);
+    public Color32 heavyTerrainColor = new Color32(255,129, 12, 255);
+
+    static Dictionary<Color32, NodeType> terrainLookupTable = new Dictionary<Color32, NodeType>();
+
+    void Awake() 
+    {
+        SetupLookupTable();
+    }
+
     void Start() 
     {
         string levelName = SceneManager.GetActiveScene().name;
@@ -64,23 +77,20 @@ public class MapData : MonoBehaviour {
 
                 for (int x = 0; x < texture.width; x++)
                 {
-                    if (texture.GetPixel(x,y) == Color.black)
+                    Color pixelColor = texture.GetPixel(x, y);
+
+                    if (terrainLookupTable.ContainsKey(pixelColor))
                     {
-                        newLine += '1';
-                    }
-                    else if ( texture.GetPixel(x,y) == Color.white)
-                    {
-                        newLine += '0';
-                    }
-                    else
-                    {
-                        newLine += ' ';
+                        NodeType nodeType = terrainLookupTable[pixelColor];
+                        int nodeTypeNum = (int)nodeType;
+                        newLine += nodeTypeNum;
                     }
                 }
                 lines.Add(newLine);
+                Debug.Log(newLine);
             }
         }
-        
+
         return lines;
     }
     
@@ -124,5 +134,14 @@ public class MapData : MonoBehaviour {
             }
         }
         return map;
+    }
+
+    void SetupLookupTable()
+    {
+        terrainLookupTable.Add(openColor, NodeType.Open);
+        terrainLookupTable.Add(blockedColor, NodeType.Blocked);
+        terrainLookupTable.Add(lightTerrainColor, NodeType.LightTerrain);
+        terrainLookupTable.Add(mediumTerrainColor, NodeType.MediumTerrain);
+        terrainLookupTable.Add(heavyTerrainColor, NodeType.HeavyTerrain);
     }
 }
