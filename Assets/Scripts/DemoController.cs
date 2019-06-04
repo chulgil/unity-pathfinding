@@ -18,7 +18,7 @@ public class DemoController : MonoBehaviour
     void Start()
     {
         if (mapData != null && graph != null)
-        {
+        { 
             int[,] mapInstance = mapData.MakeMap();
             graph.Init(mapInstance);
 

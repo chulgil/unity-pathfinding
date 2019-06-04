@@ -102,4 +102,11 @@ public class Graph : MonoBehaviour {
 
         return (1.4f * diagonalSteps + straightSetps);
     }
+
+    public int GetManhattanDistance(Node source, Node target)
+    {
+        int dx = Mathf.Abs(source.xIndex - target.xIndex);
+        int dy = Mathf.Abs(source.yIndex - target.yIndex);
+        return (dx + dy);
+    }
 }
