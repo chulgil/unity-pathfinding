@@ -5,28 +5,29 @@ using System.Linq;
 using System;
 using UnityEngine.SceneManagement;
 
-public class MapData : MonoBehaviour {
-    public int width = 40;
+public class MapData : MonoBehaviour
+{
+    public int width = 10;
     public int height = 5;
 
     public TextAsset textAsset;
     public Texture2D textureMap;
-    public string resourcePath = "MapData";
+    public string resourcePath = "Mapdata";
 
     public Color32 openColor = Color.white;
     public Color32 blockedColor = Color.black;
     public Color32 lightTerrainColor = new Color32(124, 194, 78, 255);
     public Color32 mediumTerrainColor = new Color32(252, 255, 52, 255);
-    public Color32 heavyTerrainColor = new Color32(255,129, 12, 255);
+    public Color32 heavyTerrainColor = new Color32(255, 129, 12, 255);
 
     static Dictionary<Color32, NodeType> terrainLookupTable = new Dictionary<Color32, NodeType>();
 
-    void Awake() 
+    void Awake()
     {
         SetupLookupTable();
     }
 
-    void Start() 
+    void Start()
     {
         string levelName = SceneManager.GetActiveScene().name;
 
@@ -37,6 +38,7 @@ public class MapData : MonoBehaviour {
 
         if (textAsset == null)
         {
+
             textAsset = Resources.Load(resourcePath + "/" + levelName) as TextAsset;
         }
     }
@@ -45,10 +47,10 @@ public class MapData : MonoBehaviour {
     {
         List<string> lines = new List<string>();
 
-        if(tAsset != null)
+        if (tAsset != null)
         {
             string textData = tAsset.text;
-            string[] delimiters = { "\r\n", "\n"};
+            string[] delimiters = { "\r\n", "\n" };
             lines.AddRange(textData.Split(delimiters, System.StringSplitOptions.None));
             lines.Reverse();
         }
@@ -56,7 +58,6 @@ public class MapData : MonoBehaviour {
         {
             Debug.LogWarning("MAPDATA GetTextFromFile Error: invalid TextAsset");
         }
-
         return lines;
     }
 
@@ -69,9 +70,9 @@ public class MapData : MonoBehaviour {
     {
         List<string> lines = new List<string>();
 
-        if (texture != null) 
+        if (texture != null)
         {
-            for(int y = 0; y < texture.height; y++)
+            for (int y = 0; y < texture.height; y++)
             {
                 string newLine = "";
 
@@ -85,22 +86,26 @@ public class MapData : MonoBehaviour {
                         int nodeTypeNum = (int)nodeType;
                         newLine += nodeTypeNum;
                     }
+                    else
+                    {
+                        newLine += '0';
+                    }
                 }
                 lines.Add(newLine);
-                Debug.Log(newLine);
+                //Debug.Log(newLine);
             }
         }
 
         return lines;
     }
     
-    public void SetDimentions(List<string> textLines)
+    public void SetDimensions(List<string> textLines)
     {
         height = textLines.Count;
 
         foreach (string line in textLines)
         {
-            if (line.Length > width) 
+            if (line.Length > width)
             {
                 width = line.Length;
             }
@@ -110,7 +115,7 @@ public class MapData : MonoBehaviour {
     public int[,] MakeMap()
     {
         List<string> lines = new List<string>();
-        
+
         if (textureMap != null)
         {
             lines = GetMapFromTexture(textureMap);
@@ -119,8 +124,8 @@ public class MapData : MonoBehaviour {
         {
             lines = GetMapFromTextFile(textAsset);
         }
-        
-        SetDimentions(lines);
+
+        SetDimensions(lines);
 
         int[,] map = new int[width, height];
         for (int y = 0; y < height; y++)
@@ -129,11 +134,12 @@ public class MapData : MonoBehaviour {
             {
                 if (lines[y].Length > x)
                 {
-                    map[x, y] = (int) Char.GetNumericValue(lines[y][x]);
+                    map[x, y] = (int)Char.GetNumericValue(lines[y][x]);
                 }
             }
         }
         return map;
+
     }
 
     void SetupLookupTable()
@@ -143,5 +149,16 @@ public class MapData : MonoBehaviour {
         terrainLookupTable.Add(lightTerrainColor, NodeType.LightTerrain);
         terrainLookupTable.Add(mediumTerrainColor, NodeType.MediumTerrain);
         terrainLookupTable.Add(heavyTerrainColor, NodeType.HeavyTerrain);
+    }
+
+    public static Color GetColorFromNodeType(NodeType nodeType)
+    {
+        if (terrainLookupTable.ContainsValue(nodeType))
+        {
+            Color colorKey = terrainLookupTable.FirstOrDefault(x => x.Value == nodeType).Key;
+            return colorKey;
+        }
+
+        return Color.white;
     }
 }

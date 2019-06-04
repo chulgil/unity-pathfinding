@@ -5,7 +5,7 @@ using System;
 
 public enum NodeType
 {
-    Open = 1,
+    Open = 0,
     Blocked = 1,
     LightTerrain = 2,
     MediumTerrain = 3,
